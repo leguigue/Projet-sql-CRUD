@@ -1,0 +1,132 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom right, #1bdaf7, #216af2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+h1{
+    color: white;
+    font-size: 50px;
+    text-shadow: 2px 2px 2px red;
+    animation: fadeIn 4s ease-in-out;
+}
+
+main {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background: linear-gradient(to right, #007bff, #667eea);
+    color: #fff;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#logout{
+    position: relative;
+    left: 15em;
+    margin-bottom: 20px;
+    width: 30%;
+    box-shadow: 1px 2px 2px black;
+}
+button:hover {
+    background-color: #0056b3;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f25e; 
+    padding: 3px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px; 
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.731);
+  }
+  
+
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color:#4276ad;;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 2px black;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+footer img {
+    width: 10em;
+    border-radius: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
