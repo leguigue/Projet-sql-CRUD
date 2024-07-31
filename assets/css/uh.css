@@ -1,11 +1,33 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom right, #1bdaf7, #216af2);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
+    transition: background 0.3s ease;
+}
+
+.body-light {
+    background: linear-gradient(to bottom right, #1bdaf7, #216af2);
+}
+
+.body-dark {
+    background: linear-gradient(to bottom right, #883c77, #8B2E57, #B63C47, #FF7443, #FF8643, #FF9E44, #FFAB43, #FFD143, #FFE843, #FFFF4C);
+}
+
+#darkModeToggle {
+    cursor: pointer;
+    width: 30px; 
+    height: 30px; 
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.body-dark #darkModeToggle {
+    transform: rotate(180deg);
 }
 h1{
     color: white;
@@ -45,25 +67,12 @@ input {
     border-radius: 5px;
     box-sizing: border-box;
 }
-
-button {
-    background: linear-gradient(to right, #007bff, #667eea);
-    color: #fff;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 #logout{
     position: relative;
     left: 15em;
-    margin-bottom: 20px;
+    top: 1em;
     width: 30%;
     box-shadow: 1px 2px 2px black;
-}
-button:hover {
-    background-color: #0056b3;
 }
 nav {
     display: flex;
@@ -82,6 +91,7 @@ nav {
   }
   
   nav a {
+
     text-decoration: none;
     color: #333;
     font-weight: bold;
@@ -129,4 +139,21 @@ footer img {
     to {
         opacity: 1;
     }
+}
+.benjamin {
+    background: linear-gradient(to right, #007bff, #667eea);
+    color: #fff;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+.benjamin:hover {
+    background-color: #0056b3;
+}
+header{
+    position: relative;
+    margin-bottom: 5%;
 }

@@ -62,5 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_user'])) {
    <footer>
     <img src="./assets/images/footfoot.png" alt="iep" id="iep">
    </footer>
+   <img id="darkModeToggle" src="./assets/images/dark.svg" alt="Dark Mode Toggle">
+   <script src="./assets/js/darkmode.js"></script>
 </body>
 </html>

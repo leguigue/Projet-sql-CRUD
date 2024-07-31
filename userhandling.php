@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/uh.css">
+    <link rel="icon" href="./assets/images/footfoot.png">
     <title>Gestion des Utilisateurs</title>
     <style>
         table {
@@ -73,9 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
     <header>
         <h1>Gestion des Utilisateurs</h1>
         <?php include 'nav.php'; ?>
-        <form action="./_db/logout.php" autocomplete="off" method="post">
-    <button id="logout" type="submit">Logout</button>
-</form>
+        <a href="./_db/logout.php" class="benjamin" id="logout">Logout</a>
     </header>
     <main>
         <h2>Liste des utilisateurs</h2>
@@ -89,30 +88,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
                 <th>Actions</th>
             </tr>
             <?php foreach ($users as $user) : ?>
-                <tr id="row-<?php echo $user['id']; ?>">
+                <tr>
                     <form method="POST" autocomplete="off" action="">
                         <td><?php echo $user['id']; ?></td>
                         <td>
-                            <span class="display"><?php echo htmlspecialchars($user['nom'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <input type="text" name="nom" class="edit" value="<?php echo htmlspecialchars($user['nom'], ENT_QUOTES, 'UTF-8'); ?>" style="display:none;">
+                            <?php if (isset($_GET['edit']) && $_GET['edit'] == $user['id']) : ?>
+                                <input type="text" name="nom" value="<?php echo htmlspecialchars($user['nom'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php else : ?>
+                                <?php echo htmlspecialchars($user['nom'], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <span class="display"><?php echo htmlspecialchars($user['prenom'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <input type="text" name="prenom" class="edit" value="<?php echo htmlspecialchars($user['prenom'], ENT_QUOTES, 'UTF-8'); ?>" style="display:none;">
+                            <?php if (isset($_GET['edit']) && $_GET['edit'] == $user['id']) : ?>
+                                <input type="text" name="prenom" value="<?php echo htmlspecialchars($user['prenom'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php else : ?>
+                                <?php echo htmlspecialchars($user['prenom'], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <span class="display"><?php echo htmlspecialchars($user['mail'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <input type="email" name="email" class="edit" value="<?php echo htmlspecialchars($user['mail'], ENT_QUOTES, 'UTF-8'); ?>" style="display:none;">
+                            <?php if (isset($_GET['edit']) && $_GET['edit'] == $user['id']) : ?>
+                                <input type="email" name="email" value="<?php echo htmlspecialchars($user['mail'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php else : ?>
+                                <?php echo htmlspecialchars($user['mail'], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <span class="display"><?php echo htmlspecialchars($user['codepostal'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <input type="text" name="codepostal" class="edit" value="<?php echo htmlspecialchars($user['codepostal'], ENT_QUOTES, 'UTF-8'); ?>" style="display:none;">
+                            <?php if (isset($_GET['edit']) && $_GET['edit'] == $user['id']) : ?>
+                                <input type="text" name="codepostal" value="<?php echo htmlspecialchars($user['codepostal'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php else : ?>
+                                <?php echo htmlspecialchars($user['codepostal'], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <button type="button" onclick="editUser(<?php echo $user['id']; ?>)">Modifier</button>
-                            <button type="submit" name="edit_user" class="edit" style="display:none;">Enregistrer</button>
-                            <button type="button" onclick="deleteUser(<?php echo $user['id']; ?>)">Supprimer</button>
-                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                            <?php if (isset($_GET['edit']) && $_GET['edit'] == $user['id']) : ?>
+                                <input type="submit" class="benjamin" value="Enregistrer">
+                                <input type="hidden" name="edit_user" value="1">
+                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                <a class="benjamin" href="userhandling.php">Annuler</a>
+                            <?php else : ?>
+                                <a class="benjamin" href="userhandling.php?edit=<?php echo $user['id']; ?>">Modifier</a>
+                                <a href="#" class="benjamin" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')){document.getElementById('delete_form_<?php echo $user['id']; ?>').submit();} return false;">Supprimer</a>
+                                <form id="delete_form_<?php echo $user['id']; ?>" method="POST" action="" style="display:none;">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                    <input type="hidden" name="delete_user" value="1">
+                                </form>
+                            <?php endif; ?>
                         </td>
                     </form>
                 </tr>
@@ -122,37 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
     <footer>
         <img src="./assets/images/footfoot.png" alt="iep">
     </footer>
-    <script>
-        function editUser(id) {
-            var row = document.getElementById('row-' + id);
-            var displays = row.querySelectorAll('.display');
-            var edits = row.querySelectorAll('.edit');
-            displays.forEach(function(display) {
-                display.style.display = 'none';
-            });
-            edits.forEach(function(edit) {
-                edit.style.display = 'inline';
-            });
-        }
-        function deleteUser(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-                let form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '';
-                let input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'user_id';
-                input.value = id;
-                form.appendChild(input);
-                let button = document.createElement('input');
-                button.type = 'hidden';
-                button.name = 'delete_user';
-                button.value = '1';
-                form.appendChild(button);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-    </script>
+    <img id="darkModeToggle" src="./assets/images/dark.svg" alt="Dark Mode Toggle">
+    <script src="./assets/js/darkmode.js"></script>
 </body>
 </html>

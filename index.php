@@ -1,6 +1,27 @@
 <?php
 session_start();
 require_once './_db/dbconnect.php';
+try {
+    $conn->beginTransaction();
+    $createsql = "CREATE TABLE IF NOT EXISTS user (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(255) NOT NULL,
+        prenom VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        codepostal INT NOT NULL
+        )";
+
+        $conn->exec($createsql);
+   
+} catch (PDOException $e) {
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
+    }
+
+    echo "Erreur : " . $e->getMessage();
+}
+
 $error = '';
 $success = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -85,6 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <footer>
         <img src="./assets/images/footfoot.png" id="iep" alt="iep">
   </footer>
+  <img id="darkModeToggle" src="./assets/images/dark.svg" alt="Dark Mode Toggle">
+  <script src="./assets/js/darkmode.js"></script>
   <script>
     function validatePostalCode() {
         var postalCode = document.getElementById('registercodepostal').value;

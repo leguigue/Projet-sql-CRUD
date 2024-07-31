@@ -7,6 +7,37 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background 0.3s ease;
+}
+
+.body-light {
+    background: linear-gradient(to bottom right, #1bdaf7, #216af2);
+}
+
+.body-dark {
+    background: linear-gradient(to bottom right, #883c77, #8B2E57, #B63C47, #FF7443, #FF8643, #FF9E44, #FFAB43, #FFD143, #FFE843, #FFFF4C);
+}
+
+#darkModeToggle {
+    cursor: pointer;
+    width: 30px; 
+    height: 30px; 
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.body-dark #darkModeToggle {
+    transform: rotate(180deg);
+}
 h1{
     color: white;
     font-size: 50px;
