@@ -1,13 +1,16 @@
 <?php
 session_start();
 require_once './_db/dbconnect.php';
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
+
 $stmt = $conn->prepare("SELECT * FROM user");
 $stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_user'])) {
     $id = $_POST['user_id'];
     $stmt = $conn->prepare("DELETE FROM user WHERE id = :id");
@@ -16,12 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_user'])) {
     header("Location: userhandling.php");
     exit();
 }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
     $id = $_POST['user_id'];
     $nom = htmlspecialchars($_POST['nom'], ENT_QUOTES, 'UTF-8');
     $prenom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
     $mail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $codepostal = filter_input(INPUT_POST, 'codepostal', FILTER_SANITIZE_NUMBER_INT);
+
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         $error = "Adresse e-mail invalide";
     } elseif (!preg_match("/^[0-9]{5}$/", $codepostal)) {
@@ -78,6 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
     </header>
     <main>
         <h2>Liste des utilisateurs</h2>
+        <?php if (isset($error)) : ?>
+            <p style="color: red;"><?php echo $error; ?></p>
+        <?php endif; ?>
         <table>
             <tr>
                 <th>ID</th>
@@ -127,10 +135,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_user'])) {
                                 <a class="benjamin" href="userhandling.php">Annuler</a>
                             <?php else : ?>
                                 <a class="benjamin" href="userhandling.php?edit=<?php echo $user['id']; ?>">Modifier</a>
-                                <a href="#" class="benjamin" onclick="if(confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')){document.getElementById('delete_form_<?php echo $user['id']; ?>').submit();} return false;">Supprimer</a>
-                                <form id="delete_form_<?php echo $user['id']; ?>" method="POST" action="" style="display:none;">
+                                <form method="POST" action="" style="display:inline;">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                     <input type="hidden" name="delete_user" value="1">
+                                    <input type="submit" class="benjamin" value="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
                                 </form>
                             <?php endif; ?>
                         </td>
